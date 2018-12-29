@@ -1,5 +1,5 @@
 diff --git a/minidlna-1.2.1/metadata.c b/minidlna-1.2.1/metadata.c
-index 8a10c77..e87887d 100644
+index 8a10c77..ad3f295 100644
 --- a/minidlna-1.2.1/metadata.c
 +++ b/minidlna-1.2.1/metadata.c
 @@ -844,6 +844,10 @@ GetVideoMetadata(const char *path, const char *name)
@@ -14,7 +14,7 @@ index 8a10c77..e87887d 100644
  			goto video_no_dlna;
 
 diff --git a/minidlna-1.2.1/upnpglobalvars.h b/minidlna-1.2.1/upnpglobalvars.h
-index fd2b3db..e92cadb 100644
+index fd2b3db..bd1d7f7 100644
 --- a/minidlna-1.2.1/upnpglobalvars.h
 +++ b/minidlna-1.2.1/upnpglobalvars.h
 @@ -165,7 +165,8 @@
@@ -22,16 +22,25 @@ index fd2b3db..e92cadb 100644
  	"http-get:*:audio/x-wav:*," \
  	"http-get:*:audio/x-flac:*," \
 -	"http-get:*:application/ogg:*"
-+	"http-get:*:application/ogg:*" \
++	"http-get:*:application/ogg:*," \
 +	"http-get:*:video/x-pn-realvideo:*"
 
  #define DLNA_FLAG_DLNA_V1_5      0x00100000
  #define DLNA_FLAG_HTTP_STALLING  0x00200000
 diff --git a/minidlna-1.2.1/utils.c b/minidlna-1.2.1/utils.c
-index fc21b7f..e00ddac 100644
+index fc21b7f..2a747a8 100644
 --- a/minidlna-1.2.1/utils.c
 +++ b/minidlna-1.2.1/utils.c
-@@ -399,6 +399,7 @@ is_video(const char * file)
+@@ -375,6 +375,8 @@ mime_to_ext(const char * mime)
+ 				return "3gp";
+ 			else if( strncmp(mime+6, "x-tivo-mpeg", 11) == 0 )
+ 				return "TiVo";
++			else if( strncmp(mime+6, "x-pn-realvideo", 14) == 0 )
++				return "rmvb";
+ 			break;
+ 		case 'i':
+ 			if( strcmp(mime+6, "jpeg") == 0 )
+@@ -399,6 +401,7 @@ is_video(const char * file)
  		ends_with(file, ".m2t") || ends_with(file, ".mkv")   ||
  		ends_with(file, ".vob") || ends_with(file, ".ts")    ||
  		ends_with(file, ".flv") || ends_with(file, ".xvid")  ||
